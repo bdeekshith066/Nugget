@@ -1,0 +1,135 @@
+.results-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  padding: 2rem;
+  color: #333;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1rem;
+  color: #e0f2fe;
+}
+
+/* Flashcards */
+.flashcards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Card */
+.flashcard {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 280px;
+}
+
+.flashcard h2 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2563eb;
+  margin-bottom: 0.5rem;
+}
+
+.content-scroll {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+}
+
+.flashcard p {
+  font-size: 0.9rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+.hashtags {
+  color: #06b6d4;
+  font-weight: bold;
+}
+
+.cta {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+/* Copy button */
+.copy-btn {
+  padding: 0.4rem 0.8rem;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.copy-btn:hover {
+  background: #059669;
+}
+
+/* Sources */
+.sources {
+  margin-top: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.sources h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.sources ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sources li {
+  margin-bottom: 0.4rem;
+}
+
+.sources a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.sources a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.back-btn:hover {
+  background: #1e40af;
+}

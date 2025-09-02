@@ -14,6 +14,11 @@ type Post = {
   cta: string;
 };
 
+// SerpAPI response (minimal typing)
+interface SerpApiResponse {
+  organic_results?: { title?: string; link?: string }[];
+}
+
 function cleanText(text: string): string {
   const banned = ["badword1", "badword2"];
   let cleaned = text;
@@ -35,20 +40,18 @@ export async function POST(req: Request) {
     let searchInsights = "";
     let sources: Source[] = [];
     try {
-      const searchRes: any = await getJson({
+      const searchRes = (await getJson({
         engine: "google",
         q: topic,
         api_key: process.env.SERP_API_KEY,
         num: 3,
-      });
+      })) as SerpApiResponse;
 
       if (Array.isArray(searchRes.organic_results)) {
-        sources = searchRes.organic_results.map(
-          (r: { title?: string; link?: string }): Source => ({
-            title: r.title ?? "Untitled",
-            link: r.link ?? "#",
-          })
-        );
+        sources = searchRes.organic_results.map((r): Source => ({
+          title: r.title ?? "Untitled",
+          link: r.link ?? "#",
+        }));
 
         searchInsights =
           "Recent insights:\n" +

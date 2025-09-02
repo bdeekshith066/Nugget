@@ -6,7 +6,7 @@ import "./results.css";
 type Post = {
   id: number;
   content: string;
-  hashtags?: string;
+  hashtags: string;
   cta: string;
 };
 
@@ -20,9 +20,9 @@ export default function Results() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [sources, setSources] = useState<Source[]>([]);
 
-  // utility: remove markdown **
-  function cleanMarkdown(text: string | undefined) {
-    return text ? text.replace(/\*\*/g, "") : "";
+  // utility: remove markdown ** from AI output
+  function cleanMarkdown(text: string) {
+    return text.replace(/\*\*/g, "");
   }
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export default function Results() {
     }
 
     if (savedSources) {
-      const parsedSources: Source[] = JSON.parse(savedSources);
-      setSources(parsedSources);
+      const parsed: Source[] = JSON.parse(savedSources);
+      setSources(parsed);
     }
   }, []);
 
@@ -55,10 +55,10 @@ export default function Results() {
 
       {/* Posts Grid */}
       <div className="results-grid">
-        {posts.map((post, i) => (
-          <div className="result-card" key={post.id || i}>
+        {posts.map((post) => (
+          <div className="result-card" key={post.id}>
             <div className="card-header">
-              <h2>Post #{i + 1}</h2>
+              <h2>Post #{post.id}</h2>
               <button
                 className="copy-btn"
                 onClick={() =>

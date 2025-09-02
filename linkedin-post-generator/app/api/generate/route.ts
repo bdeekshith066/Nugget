@@ -2,7 +2,19 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
 import { getJson } from "serpapi";
 
-function cleanText(text: string) {
+type Source = {
+  title: string;
+  link: string;
+};
+
+type Post = {
+  id: number;
+  content: string;
+  hashtags: string;
+  cta: string;
+};
+
+function cleanText(text: string): string {
   const banned = ["badword1", "badword2"];
   let cleaned = text;
   for (const word of banned) {
@@ -19,23 +31,24 @@ export async function POST(req: Request) {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
   try {
-    // --- Step 1: Optional Web Search ---
+    // --- Step 1: Web Search ---
     let searchInsights = "";
-    let sources: { title: string; link: string }[] = [];
+    let sources: Source[] = [];
     try {
-      const searchRes = await getJson({
+      const searchRes: any = await getJson({
         engine: "google",
         q: topic,
         api_key: process.env.SERP_API_KEY,
         num: 3,
       });
 
-      if (searchRes.organic_results) {
-  sources = searchRes.organic_results.map((r: any) => ({
-    title: r.title,
-    link: r.link,
-  }));
-
+      if (Array.isArray(searchRes.organic_results)) {
+        sources = searchRes.organic_results.map(
+          (r: { title?: string; link?: string }): Source => ({
+            title: r.title ?? "Untitled",
+            link: r.link ?? "#",
+          })
+        );
 
         searchInsights =
           "Recent insights:\n" +
@@ -68,12 +81,12 @@ Requirements:
 
     // --- Step 4: Parse Posts ---
     const rawPosts = text.split(/\*\*?Post\s*\d+:?/i).filter((p) => p.trim());
-    const posts = rawPosts.map((p, i) => {
+    const posts: Post[] = rawPosts.map((p, i) => {
       const [content, hashtagsBlock] = p.split("Hashtags:");
       return {
         id: i + 1,
         content: cleanText(content.trim()),
-        hashtags: hashtagsBlock ? hashtagsBlock.trim() : "",
+        hashtags: hashtagsBlock ? cleanText(hashtagsBlock.trim()) : "",
         cta: content.includes("?")
           ? "👉 Share your thoughts in the comments!"
           : "🚀 Let’s connect and discuss!",

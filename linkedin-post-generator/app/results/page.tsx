@@ -3,22 +3,35 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./results.css";
 
+type Post = {
+  id: number;
+  content: string;
+  hashtags?: string;
+  cta: string;
+};
+
+type Source = {
+  title: string;
+  link: string;
+};
+
 export default function Results() {
   const router = useRouter();
-  const [posts, setPosts] = useState<any[]>([]);
-  const [sources, setSources] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [sources, setSources] = useState<Source[]>([]);
 
   // utility: remove markdown **
-  function cleanMarkdown(text: string) {
-    return text.replace(/\*\*/g, ""); // strip all **
+  function cleanMarkdown(text: string | undefined) {
+    return text ? text.replace(/\*\*/g, "") : "";
   }
 
   useEffect(() => {
     const savedPosts = sessionStorage.getItem("generatedPosts");
     const savedSources = sessionStorage.getItem("searchSources");
+
     if (savedPosts) {
-      const parsed = JSON.parse(savedPosts);
-      const cleaned = parsed.map((p: any) => ({
+      const parsed: Post[] = JSON.parse(savedPosts);
+      const cleaned = parsed.map((p) => ({
         ...p,
         content: cleanMarkdown(p.content),
         hashtags: cleanMarkdown(p.hashtags),
@@ -26,7 +39,11 @@ export default function Results() {
       }));
       setPosts(cleaned);
     }
-    if (savedSources) setSources(JSON.parse(savedSources));
+
+    if (savedSources) {
+      const parsedSources: Source[] = JSON.parse(savedSources);
+      setSources(parsedSources);
+    }
   }, []);
 
   return (
@@ -39,7 +56,7 @@ export default function Results() {
       {/* Posts Grid */}
       <div className="results-grid">
         {posts.map((post, i) => (
-          <div className="result-card" key={i}>
+          <div className="result-card" key={post.id || i}>
             <div className="card-header">
               <h2>Post #{i + 1}</h2>
               <button

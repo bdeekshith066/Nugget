@@ -1,135 +1,166 @@
 .results-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, #E8F3FC, #D0E6F7);
   padding: 2rem;
   color: #333;
 }
 
-.hero {
+/* Hero (unique name now) */
+.results-hero {
   text-align: center;
   margin-bottom: 2rem;
-  color: white;
 }
 
-.hero h1 {
-  font-size: 2rem;
-  font-weight: bold;
+.results-hero h1 {
+  font-size: 3rem;   /* bigger heading */
+  font-weight: 800;
+  color: #0A66C2;
 }
 
-.hero p {
-  font-size: 1rem;
-  color: #e0f2fe;
-}
-
-/* Flashcards */
-.flashcards {
+/* Grid */
+.results-grid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-bottom: 2rem;
 }
 
 /* Card */
-.flashcard {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.result-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  min-height: 380px;  /* taller cards */
+}
+
+.result-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Header */
+.card-header {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  max-height: 280px;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.flashcard h2 {
-  font-size: 1rem;
-  font-weight: bold;
+.result-card h2 {
+  font-size: 1.3rem;   /* bigger Post# */
   color: #2563eb;
-  margin-bottom: 0.5rem;
-}
-
-.content-scroll {
-  flex-grow: 1;
-  overflow-y: auto;
-  margin-bottom: 0.5rem;
-}
-
-.flashcard p {
-  font-size: 0.9rem;
-  color: #444;
-  line-height: 1.4;
-}
-
-.hashtags {
-  color: #06b6d4;
-  font-weight: bold;
-}
-
-.cta {
-  color: #16a34a;
-  font-weight: bold;
+  font-weight: 700;
+  margin: 0;
 }
 
 /* Copy button */
 .copy-btn {
-  padding: 0.4rem 0.8rem;
-  background: #10b981;
+  background: #0A66C2;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
   cursor: pointer;
-  font-size: 0.85rem;
+  width: 70px;
+  transition: background 0.3s ease;
 }
 
 .copy-btn:hover {
-  background: #059669;
+  background: #004182;
+}
+
+/* Content */
+.content {
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-weight: 500;   /* normal now */
+  max-height: 340px;
+  min-height: 260px;
+  overflow-y: auto;
+}
+
+/* Hashtags */
+.hashtags {
+  color: #0A66C2;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+/* CTA inside post */
+.cta {
+  font-weight: 600;
+  color: #059669;
+  margin-top: 0.5rem;
 }
 
 /* Sources */
 .sources {
-  margin-top: 2rem;
+  margin: 2rem auto;
   background: white;
-  padding: 1rem;
-  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  max-width: 500px;
 }
 
 .sources h2 {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  color: #0A66C2;
+  text-align: center;
 }
 
 .sources ul {
   list-style: none;
   padding: 0;
+  text-align: center;
 }
 
 .sources li {
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
 }
 
 .sources a {
   color: #2563eb;
   text-decoration: none;
+  font-weight: 600;
 }
 
 .sources a:hover {
   text-decoration: underline;
 }
 
-/* Footer */
-footer {
+/* CTA button (unique class now) */
+.results-cta {
   text-align: center;
-  margin-top: 2rem;
+  margin: 2rem auto;
+  max-width: 400px;
 }
 
-.back-btn {
+.results-btn {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background: #2563eb;
+  padding: 0.9rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #0A66C2, #004182);
   color: white;
-  border-radius: 8px;
-  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.35s ease;
 }
 
-.back-btn:hover {
-  background: #1e40af;
+.results-btn:hover {
+  background: linear-gradient(90deg, #004182, #0A66C2);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }

@@ -1,53 +1,69 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import "./results.css";
 
 export default function Results() {
+  const router = useRouter();
   const [posts, setPosts] = useState<any[]>([]);
   const [sources, setSources] = useState<any[]>([]);
 
+  // utility: remove markdown **
+  function cleanMarkdown(text: string) {
+    return text.replace(/\*\*/g, ""); // strip all **
+  }
+
   useEffect(() => {
-    const storedPosts = sessionStorage.getItem("generatedPosts");
-    const storedSources = sessionStorage.getItem("searchSources");
-    if (storedPosts) setPosts(JSON.parse(storedPosts));
-    if (storedSources) setSources(JSON.parse(storedSources));
+    const savedPosts = sessionStorage.getItem("generatedPosts");
+    const savedSources = sessionStorage.getItem("searchSources");
+    if (savedPosts) {
+      const parsed = JSON.parse(savedPosts);
+      const cleaned = parsed.map((p: any) => ({
+        ...p,
+        content: cleanMarkdown(p.content),
+        hashtags: cleanMarkdown(p.hashtags),
+        cta: cleanMarkdown(p.cta),
+      }));
+      setPosts(cleaned);
+    }
+    if (savedSources) setSources(JSON.parse(savedSources));
   }, []);
 
   return (
     <main className="results-page">
-      <section className="hero">
+      {/* Hero Title */}
+      <section className="results-hero">
         <h1>Your LinkedIn Posts</h1>
-        <p>✨ Scroll through your generated posts below</p>
       </section>
 
-      {/* Flashcards */}
-      <section className="flashcards">
-        {posts.map((p, i) => (
-          <div className="flashcard" key={i}>
-            <h2>Post #{i + 1}</h2>
-            <div className="content-scroll">
-              <p>{p.content}</p>
-              {p.hashtags && <p className="hashtags">{p.hashtags}</p>}
-              {p.cta && <p className="cta">{p.cta}</p>}
+      {/* Posts Grid */}
+      <div className="results-grid">
+        {posts.map((post, i) => (
+          <div className="result-card" key={i}>
+            <div className="card-header">
+              <h2>Post #{i + 1}</h2>
+              <button
+                className="copy-btn"
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    post.content + "\n\n" + post.hashtags + "\n" + post.cta
+                  )
+                }
+              >
+                📋 Copy
+              </button>
             </div>
-            <button
-              className="copy-btn"
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `${p.content}\n${p.hashtags || ""}\n${p.cta || ""}`
-                )
-              }
-            >
-              Copy Post
-            </button>
+            <p className="content">{post.content}</p>
+            {post.hashtags && <p className="hashtags">{post.hashtags}</p>}
+            <p className="cta">{post.cta}</p>
           </div>
         ))}
-      </section>
+      </div>
 
-      {/* Sources */}
+      {/* Sources Section */}
       {sources.length > 0 && (
-        <section className="sources">
-          <h2>🔎 Sources from Web Search</h2>
+        <div className="sources">
+          <h2>🔍 Sources from Web Search</h2>
           <ul>
             {sources.map((s, i) => (
               <li key={i}>
@@ -57,14 +73,15 @@ export default function Results() {
               </li>
             ))}
           </ul>
-        </section>
+        </div>
       )}
 
-      <footer>
-        <a href="/" className="back-btn">
-          🔄 Generate More
-        </a>
-      </footer>
+      {/* CTA Button */}
+      <div className="results-cta">
+        <button className="results-btn" onClick={() => router.push("/")}>
+          🔄 Generate Again
+        </button>
+      </div>
     </main>
   );
 }

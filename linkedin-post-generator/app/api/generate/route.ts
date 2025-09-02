@@ -31,10 +31,11 @@ export async function POST(req: Request) {
       });
 
       if (searchRes.organic_results) {
-        sources = searchRes.organic_results.slice(0, 3).map((r: any) => ({
-          title: r.title,
-          link: r.link,
-        }));
+  sources = searchRes.organic_results.map((r: any) => ({
+    title: r.title,
+    link: r.link,
+  }));
+
 
         searchInsights =
           "Recent insights:\n" +

@@ -1,5 +1,5 @@
 
-```markdown
+
 # 🚀 AI LinkedIn Post Generator
 
 An AI-powered tool to generate **engaging, LinkedIn-ready posts** from any topic in seconds.  
